@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="filename shortener">
+<meta name="author" content="Pablo Heimplatz">
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<link rel="stylesheet" href="normalize.css">
+<link rel="stylesheet" href="skeleton.css">
+<style type="text/css">
+	body {
+		border-top: 10px solid #acc7dc;
+	}
+	.hero {
+		padding: 48px 0;
+	}
+
+</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="hero">
+		<h2>Filename shortener</h2>
+		</div>
+
+		<p>Copy (cmd+c) your images from Finder and paste it in the textarea below...</p>
+
+		<div class="example">
+		<h5>Example:</h5>
+		<p>HEI_98_3138.jpg<br> HEI_99_3141.jpg<br> HEI_100_3143.jpg<br> HEI_101_4105.jpg<br></p>
+		</div>
+		<label for="textarea">Paste your files here</label>
+		<textarea id="textarea" class="u-full-width" style="min-height: 165px" placeholder="Paste the list of your filenames here..."></textarea>
+		<label for="textarea2">Copy your results here</label>
+		<textarea id="textarea2" class="u-full-width" style="min-height: 200px" placeholder="Here are your results!"></textarea>
+	</div>
+</body>
+
+	<script>
+			function shortenFilename(filename) {
+				// Wählt nur die Dateinummern vor '.jpg' aus
+				var regEx = /(\d+)\.jpg$/gmi;
+				var match = regEx.exec(filename);
+				return match[1];
+			}
+
+		$(document).on('ready', function () {
+			var area = $("#textarea");
+			area.on('input', function() {
+				var filenames = area.val();
+				var singleFilenames = filenames.split(/\r\n|\n|\r/).map(shortenFilename);
+
+				$("#textarea2").val(singleFilenames);
+			})
+		});
+	</script>
+
+</html>
